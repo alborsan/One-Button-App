@@ -1,31 +1,39 @@
-var timer = new Timer();
-$('#chronoExample .startButton').click(function () {
-    timer.start();
-});
-$('#chronoExample .pauseButton').click(function () {
-    timer.pause();
-});
-$('#chronoExample .stopButton').click(function () {
-    timer.stop();
-});
-$('#chronoExample .resetButton').click(function () {
-    timer.reset();
-});
-timer.addEventListener('secondsUpdated', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
-});
-timer.addEventListener('started', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
-});
-timer.addEventListener('reset', function (e) {
-    $('#chronoExample .values').html(timer.getTimeValues().toString());
-});
-<div id="chronoExample">
-    <div class="values">00:00:00</div>
-    <div>
-        <button class="startButton">Start</button>
-        <button class="pauseButton" >Pause</button>
-        <button class="stopButton">Stop</button>
-        <button class="resetButton">Reset</button>
-    </div>
-</div>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Easy to use Timer/Chronometer/Countdown library compatible with AMD and NodeJS">
+    <meta name="author" content="Albert González">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>EasyTimer.js</title>
+
+    <link href="dist/examples.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+          <div class="card mb-5">
+            <div class="text-center card-body" id="chronoExample">
+                <div class="values">00:00:00</div>
+                <div>
+                    <button class="startButton btn btn-success btn-lg mb-1">Start</button>
+                    <button class="pauseButton btn btn-primary btn-lg mb-1" >Pause</button>
+                    <button class="stopButton btn btn-danger btn-lg mb-1">Stop</button>
+                    <button class="resetButton btn btn-warning btn-lg mb-1">Reset</button>
+                </div>
+            </div>
+          </div>
+
+    <script src="dist/examples.min.js"> </script>
+  </body>
+</html>
