@@ -5,9 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Easy to use Timer/Chronometer/Countdown library compatible with AMD and NodeJS">
-    <meta name="author" content="Albert González">
-    <link rel="icon" href="../../favicon.ico">
+    <meta name="description" content="One button app">
+    <meta name="author" content="AlBor">
 
     <title>EasyTimer.js</title>
 
@@ -21,19 +20,60 @@
   </head>
 
   <body>
-
-          <div class="card mb-5">
-            <div class="text-center card-body" id="chronoExample">
-                <div class="values">00:00:00</div>
-                <div>
-                    <button class="startButton btn btn-success btn-lg mb-1">Start</button>
-                    <button class="pauseButton btn btn-primary btn-lg mb-1" >Pause</button>
-                    <button class="stopButton btn btn-danger btn-lg mb-1">Stop</button>
-                    <button class="resetButton btn btn-warning btn-lg mb-1">Reset</button>
-                </div>
-            </div>
-          </div>
-
-    <script src="dist/examples.min.js"> </script>
+	 <div class="card mb-5">
+		<div class="text-center card-body" id="Instruction">
+			<div class="time"></div>
+		    <div class="inst"></div>
+			<div class="final_time"></div>
+		</div>
+		<div class="text-center card-body" id="PushMe">
+			<button class="button btn btn-success btn-lg mb-1">Start</button>
+			<div class="stats"></div>
+		</div>
+	  </div>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	  <script src="https://cdn.jsdelivr.net/npm/easytimer@1.1.1/dist/easytimer.min.js"></script>
+	  <script>
+			var timer = new Timer();
+			var state = 2;
+			var games_played = 0;
+			var best_time = 60;
+			var games_kaboom = 0;
+			timer.addEventListener('secondsUpdated', function(e) {
+			//	$('#Instruction .time').html(timer.getTimeValues().toString());
+			});
+			timer.addEventListener('targetAchieved', function (e) {
+				games_kaboom++;
+				$('#Instruction .final_time').html('KABOOM!!');
+				state=0;
+			});
+			$('#PushMe .button').click(function () {
+				switch(state){
+					case 0:
+						games_played++;
+						timer.start({countdown: true, startValues: {seconds: 60}});
+						$('#Instruction .inst').html("Wait (counting) almost one minute, then push button again to see how much left on \"your human clock\" ");
+						$('#Instruction .final_time').html("Clock is running ...");
+						$('#PushMe .button').html("Stop");
+						state = 1;
+						break;
+					case 1: 
+						$('#Instruction .final_time').html("Time left on the clock " + timer.getTimeValues().toString());
+						best_time = timer.getTotalTimeValues().seconds > best_time ? best_time :  timer.getTotalTimeValues().seconds
+						$('#Instruction .inst').html("Push the button again");
+						timer.stop();
+						$('#PushMe .button').html("Play Again");
+						state = 2;
+						break;
+					case 2:
+						$('#Instruction .inst').html("Richard Feiman was a good human clock. Push the button to start the clock and wait (counting) almost one minute, then push button again to see how much left on \"your human clock\" ");
+						$('#Instruction .final_time').html("Ready to play?");
+						$('#PushMe .button').html("Start");
+						state = 0;
+						break;
+				}
+				$('#PushMe .stats').html("Games played: " + games_played + "|| Games boomed: " + games_kaboom + "|| Best time: " + best_time);
+			});
+	  </script>
   </body>
 </html>
