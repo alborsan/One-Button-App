@@ -34,18 +34,23 @@
 	  <script src="dist/jquery-3.5.1.min.js"></script>
 	  <script src="dist/easytimer.min.js"></script>
 	  <script>
+			function start_game_screen(){
+				$('#Instruction .inst').html("Richard Feiman was a good human clock. Push the button to start the clock and wait (counting) almost one minute, then push button again to see how much left on \"your human clock\" ");
+				$('#Instruction .final_time').html("Ready to play?");
+			}
 			var timer = new Timer();
 			var state = 2;
 			var games_played = 0;
 			var best_time = 60;
 			var games_kaboom = 0;
-			timer.addEventListener('secondsUpdated', function(e) {
-			//	$('#Instruction .time').html(timer.getTimeValues().toString());
-			});
+
+			start_game_screen();
+			$('#PushMe .button').html("Play");
+
 			timer.addEventListener('targetAchieved', function (e) {
 				games_kaboom++;
 				$('#Instruction .final_time').html('KABOOM!!');
-				state=0;
+				state=2;
 			});
 			$('#PushMe .button').click(function () {
 				switch(state){
@@ -58,6 +63,7 @@
 						state = 1;
 						break;
 					case 1: 
+
 						$('#Instruction .final_time').html("Time left on the clock " + timer.getTimeValues().toString());
 						best_time = timer.getTotalTimeValues().seconds > best_time ? best_time :  timer.getTotalTimeValues().seconds
 						$('#Instruction .inst').html("Push the button again");
@@ -66,10 +72,9 @@
 						state = 2;
 						break;
 					case 2:
-						$('#Instruction .inst').html("Richard Feiman was a good human clock. Push the button to start the clock and wait (counting) almost one minute, then push button again to see how much left on \"your human clock\" ");
-						$('#Instruction .final_time').html("Ready to play?");
-						$('#PushMe .button').html("Start");
+						start_game_screen();
 						state = 0;
+						$('#PushMe .button').html("Start");
 						break;
 				}
 				$('#PushMe .stats').html("Games played: " + games_played + "|| Games boomed: " + games_kaboom + "|| Best time: " + best_time + " seconds");
